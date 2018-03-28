@@ -1,30 +1,53 @@
 package src
 
 fun main(args : Array<String>){
-	
 
-	val game = Game(1)
+	val game = Game()
 
-	println(game.scenes[0])
+	var current_scene : Scene = game.scenes[0]
+
+//	do{
+//
+	//} while(game.placement != null)
+
+	option = current_scene.printOptions()
 
 }
 
-class Game(var currentScene : Int){
-	init{
-		val scene1 = Scene(1, "title1", "cogeti")
-		val scene2 = Scene(2, "title2", "cogeti2")
-		scene1.getInfo()
+class Game(){
+	var placement : Int = -1
+	var scenes : Array<Scene>
 
-		val scenes = arrayOf(scene1, scene2)
+	init{
+		val scene0 = Scene(0, "Preparar", "a", arrayOf(1
+		))
+		val scene1 = Scene(1, "Largada", "Você saiu", arrayOf(2, 3))
+		val scene2 = Scene(2, "aoba", "kkkkk", arrayOf(3))
+
+	//	val scene3 = Scene(3, "eae", "man", {4})
+		//val scene4 = Scene(4, "eae2", "voce morreu", {})
+
+	//	scenes = arrayOf(scene1, scene2, scene3, scene4)
+
+
+		scenes = arrayOf(scene0, scene1, scene2)
 	}
 }
 
 class Scene(val id : Int,
 			val title : String,
-			val description : String){
+			val description : String,
+			val options : Array<Int>){
 	
-	fun getInfo() : Unit{
+	fun getInfo(){
 		println("a $description b")
+	}
+
+	fun printOptions(){
+		print("Lista de opções: ")
+		for (option in options){
+			println(option)
+		}
 	}
 
 }
