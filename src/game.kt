@@ -3,14 +3,16 @@ package src
 fun main(args : Array<String>){
 
 	val game = Game()
+	val parser = Parser()
 
 	var current_scene : Scene = game.scenes[0]
+	current_scene.printDescription()
 
-//	do{
-//
-	//} while(game.placement != null)
+	do{
+		var args = readLine()!!.split(' ')
+		parser.executeCommand(args[0])
 
-	option = current_scene.printOptions()
+	} while(game.placement != null)
 
 }
 
@@ -19,10 +21,9 @@ class Game(){
 	var scenes : Array<Scene>
 
 	init{
-		val scene0 = Scene(0, "Preparar", "a", arrayOf(1
-		))
-		val scene1 = Scene(1, "Largada", "Você saiu", arrayOf(2, 3))
-		val scene2 = Scene(2, "aoba", "kkkkk", arrayOf(3))
+		val scene0 = Scene(0, "Preparar", "Você se ingressou à corrida.")
+		val scene1 = Scene(1, "Largada", "Você saiu")
+		val scene2 = Scene(2, "aoba", "kkkkk")
 
 	//	val scene3 = Scene(3, "eae", "man", {4})
 		//val scene4 = Scene(4, "eae2", "voce morreu", {})
@@ -36,18 +37,53 @@ class Game(){
 
 class Scene(val id : Int,
 			val title : String,
-			val description : String,
-			val options : Array<Int>){
+			val description : String){
 	
-	fun getInfo(){
-		println("a $description b")
+	fun printDescription(){
+		println("$description")
 	}
 
-	fun printOptions(){
-		print("Lista de opções: ")
-		for (option in options){
-			println(option)
+}
+
+class Parser(){
+	var commands : Array<Command>
+
+	init{
+		val use = Command("use", "use <objeto>\nuse <objeto> with <objeto>")
+		val help = Command("help", "help")
+		
+		commands = arrayOf(help, use)
+	}
+
+	fun executeCommand(command : String){
+		if(checkCommand(command)){
+			if(command.equals("help")){
+				printCommands()
+			}	
 		}
 	}
 
+	fun checkCommand(token : String) : Boolean{
+		for(command in commands){
+			if(command.syntax.equals(token)){
+				return true
+			}
+		}
+		println("Comando \"$token\" desconhecido. Digite help para ver a lista de comandos.")
+		return false
+	}
+
+	fun printCommands(){
+		for(command in commands){
+			println(command.printSyntax())
+		}
+	}
+}
+
+class Command(val id : String,
+			  val syntax : String){
+	
+	fun printSyntax(){
+		println("$syntax")
+	}
 }
